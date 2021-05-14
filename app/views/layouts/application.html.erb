@@ -9,6 +9,11 @@
   </head>
 
   <body>
+    <%= render 'layouts/header'%>
+    <%= render 'shared/toast'%>  
+    <div id="main">
+      <img src="/assets/main-img.jpg" />
+    </div>    
     <%= yield %>
   </body>
 </html>

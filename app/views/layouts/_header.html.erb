@@ -1,0 +1,16 @@
+<header>
+    <p id="logo"><a href "/" >RailsCamp<span>Blog</span></a></p>
+    <nav>
+        <ul>
+            <% if user_signed_in? %>
+                <%= link_to 'トップ', root_url %>
+                <%= link_to '新規投稿', root_url %><!-------修正要---->
+                <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
+            <% else %>
+                <%= link_to '新規登録', new_user_registration_path %>
+                <%= link_to 'ログイン', new_user_session_path %>
+            <% end %>
+        </ul>
+    </nav>
+    <div class="clear"></div>
+</header>
