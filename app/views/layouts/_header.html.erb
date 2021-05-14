@@ -1,10 +1,14 @@
 <header>
-    <p id="logo"><a href "/" >RailsCamp<span>Blog</span></a></p>
+    <p id="logo">
+    <%= link_to '/' do %>
+        RailsCamp<span>Blog</span>    
+    <% end %>
+    </p>
     <nav>
         <ul>
             <% if user_signed_in? %>
-                <li><%= link_to 'トップ', root_url %></li>
-                <li><%= link_to '新規投稿', root_url %><!-------修正要----></li>
+                <li><%= link_to 'トップ', root_path %></li>
+                <li><%= link_to '新規投稿',  new_article_path %><!-------修正要----></li>
                 <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
             <% else %>
                 <li><%= link_to '新規登録', new_user_registration_path %></li>
