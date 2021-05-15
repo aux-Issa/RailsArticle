@@ -1,12 +1,27 @@
 class ArticlesController < ApplicationController
-before_action :ConfirmIfYouHaveRight, only:[:edit,:destroy]
 before_action :authenticate_user!, only:[:new, :edit, :create, :destroy]#deviseのヘルパーメソッド
+before_action :ConfirmIfYouHaveRight, only:[:edit,:destroy]
 
     def new
         @article = Article.new
     end   
     def show
         @article = Article.find(params[:id])
+        #redisにPVを保存
+        REDIS.zincrby "articles/daily/#{Date.today.to_s}", 1, @article.id
+        ids_scores = REDIS.zrevrangebyscore "articles/daily/#{Date.today.to_s}", "+inf", 0, :limit => [0, 3], :with_scores => true
+        @ids=[]
+        scores=[]       
+        ids_scores.each do |id, score|
+          @ids << id
+          scores << score.to_i
+        end  
+        best_articles = @ids.map{ |id| Article.find(id) }
+        best_articles_titles=[]        
+        best_articles.each do |best_article|        
+          best_articles_titles << best_article.title
+        end  
+        @best_articles_titles_with_scores = best_articles_titles + scores
     end
     def create
         @article = current_user.articles.build(articles_params)
@@ -38,7 +53,7 @@ before_action :authenticate_user!, only:[:new, :edit, :create, :destroy]#devise�
         
     def destroy
         @article.destroy 
-        flash.now[:success] = "削除されました"
+        flash[:notice] = "削除されました"
         redirect_to  root_url
     end
     

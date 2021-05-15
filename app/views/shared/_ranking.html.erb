@@ -1,8 +1,23 @@
 <div id="sidebar">
     <h2>★PV数ランキング</h2>
+   
     <ul>
-        <li>e</li>
-        <li>e</li>
-        <li>e</li>
-    </ul>  
+        <li>
+            <%= link_to "/articles/#{@ids[0]}" do %>
+                <%=  @best_articles_titles_with_scores[0] %><span> (<%= @best_articles_titles_with_scores[3] %>PV)</span>
+            <% end %> 
+        </li>
+        <li>
+            <%= link_to "/articles/#{@ids[1]}" do %>
+                <%=  @best_articles_titles_with_scores[1] %><span> (<%= @best_articles_titles_with_scores[4] %>PV)</span>
+            <% end %> 
+        </li>  
+        <li>
+            <%= link_to "/articles/#{@ids[2]}" do %>
+                <%=  @best_articles_titles_with_scores[2] %><span> (<%= @best_articles_titles_with_scores[5] %>PV)</span>
+            <% end %> 
+        </li>          
+        
+    </ul>    
+
 </div> 

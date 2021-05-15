@@ -1,4 +1,7 @@
 source 'https://rubygems.org'
+gem 'redis'
+gem 'redis-actionpack'
+
 gem 'devise'
 gem 'rails',        '5.1.6'
 gem 'puma',         '3.9.1'
