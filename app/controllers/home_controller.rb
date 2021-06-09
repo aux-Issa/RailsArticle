@@ -1,7 +1,9 @@
 class HomeController < ApplicationController
   def index
     @articles = Article.all
-    ids_scores = REDIS.zrevrangebyscore "articles/daily/#{Date.today.to_s}", "+inf", 0, :limit => [0, 3], :with_scores => true
+    #ids_scores = REDIS.zrevrangebyscore "articles/daily/#{Date.today.to_s}", "+inf", 0, :limit => [0, 3], :with_scores => true
+    ids_scores = REDIS.zrevrangebyscore "articles/PV", "+inf", 0, :limit => [0, 3], :with_scores => true
+
     @ids=[]
     scores=[]       
     

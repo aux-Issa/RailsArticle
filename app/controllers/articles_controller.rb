@@ -8,8 +8,11 @@ before_action :ConfirmIfYouHaveRight, only:[:edit,:destroy]
     def show
         @article = Article.find(params[:id])
         #redisにPVを保存
-        REDIS.zincrby "articles/daily/#{Date.today.to_s}", 1, @article.id
-        ids_scores = REDIS.zrevrangebyscore "articles/daily/#{Date.today.to_s}", "+inf", 0, :limit => [0, 3], :with_scores => true
+        #REDIS.zincrby "articles/daily/#{Date.today.to_s}", 1, @article.id
+        #ids_scores = REDIS.zrevrangebyscore "articles/daily/#{Date.today.to_s}", "+inf", 0, :limit => [0, 3], :with_scores => true
+        
+        REDIS.zincrby "articles/PV", 1, @article.id
+        ids_scores = REDIS.zrevrangebyscore "articles/PV", "+inf", 0, :limit => [0, 3], :with_scores => true
         @ids=[]
         scores=[]       
         ids_scores.each do |id, score|
@@ -54,6 +57,7 @@ before_action :ConfirmIfYouHaveRight, only:[:edit,:destroy]
     def destroy
         @article.destroy 
         flash[:notice] = "削除されました"
+        REDIS.zrem "articles/PV", params[:id]
         redirect_to  root_url
     end
     
